@@ -20,3 +20,8 @@ Hands-on Project 2: Explore the difference in performance of 3 methods: (1) Few 
 
 Hands-on Project 3: Applying Zero-Shot Chain of Thought Prompting for an LLM built from scratch
 Inspiration: https://huggingface.co/rasbt/llama-3....
+
+
+Reference - 
+
+[Vizuara AI](https://www.youtube.com/watch?v=fZNNqcN_UQM&list=PLPTV0NXA_ZSijcbUrRZHm6BrdinLuelPs&index=12)
