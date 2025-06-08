@@ -73,4 +73,4 @@ v_{*}(s) = max_{A} \sum_{s', r} P(S', r|S, A) (r + \gamma v_{*}(s'))
 
 # Bellman derivation 
 
-![Derivation](Reasoning-LLMs/Reinforcement_learning/Bellman_derivation.png)
+![Derivation](Bellman_derivation.png)
