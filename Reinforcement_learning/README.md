@@ -129,6 +129,6 @@ On-policy - The policy with which agent interacts to generate data is same as th
 
 Off-policy - The policy with which agent interacts to generate data, known as behaviour policy is different from target policy. (Need to understand more!!!)
 
-Interactive Example to demonstrate on-policy Monte-Carlo control: https://claude.ai/public/artifacts/1e...
+Interactive Example to demonstrate on-policy Monte-Carlo control: [link](https://claude.ai/public/artifacts/1e531122-1b45-4337-86a2-df8bc2ac531b)
 
-Interactive Example to demonstrate Importance Sampling Ratio used in off-policy Monte-Carlo methods (not the focus of this lecture): https://claude.ai/public/artifacts/8a...
+Interactive Example to demonstrate Importance Sampling Ratio used in off-policy Monte-Carlo methods (not the focus of this lecture): [link](https://claude.ai/public/artifacts/8a773548-d360-418b-a20b-d427dc7a1952)
