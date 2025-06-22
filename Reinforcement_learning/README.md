@@ -132,3 +132,64 @@ Off-policy - The policy with which agent interacts to generate data, known as be
 Interactive Example to demonstrate on-policy Monte-Carlo control: [link](https://claude.ai/public/artifacts/1e531122-1b45-4337-86a2-df8bc2ac531b)
 
 Interactive Example to demonstrate Importance Sampling Ratio used in off-policy Monte-Carlo methods (not the focus of this lecture): [link](https://claude.ai/public/artifacts/8a773548-d360-418b-a20b-d427dc7a1952)
+
+
+# Temporal difference learning
+
+It is a combination of dynamic programming and monte carlo methods, which gives the benefit of not knowing the interaction with environment and not need to wait for the whole episode to complete. 
+
+## Prediction problem 
+
+### Monte Carlo method 
+
+From Monte Carlo method, we know how to calculate the state value function 
+
+We calculate state value function 
+V_{k+1}(S) =\frac{G_0 + G_1 + G_2 + ... + G_{k-1} + G_{k}}{k+1}
+
+V_{k+1}(S) = V_k(S) + \alpha*(G_k - V_k(S))
+
+
+V(S_{t+1}) = V(S_t) + \alpha*(G_t - V(S_t))
+
+V(S_t) = V(S_t) + \alpha*((R_{t-1} + R_t + R_{t+1} + ...) - V(S_t))
+
+However, we can't wait for the episode to end. 
+
+
+### Dynamic programming
+Therefore, we used the concepts from dynamic programming (bootstrapping) to estimate the state value function as a function of immediate state value function
+
+G_t = \gamma R_{t+1} + \gamma( R_{t+2} + ...)
+G_t = R_{t+1} + \gamma (V(S_{t+1}))
+
+
+So now the prediction problem looks like 
+V(S_{t+1}) = V(S_t) + \alpha*(( R_{t+1} + \gamma (V(S_{t+1}))) - V(S_t))
+
+Now, we don't need to wait for the whole episode to be over. 
+
+
+## Control Problem
+
+If we want to prediction the value of state-action pair, we calculate state action value Q(S, A). 
+
+### On-Policy Control
+
+If the agent applies the policy with which it has learnt, it's called on-policy. For example, a person rides a bicycle and improves it's skill while driving. 
+
+\textbf(SARSA Algorithm)
+Q(S_t, A_t) = Q(S_t, A_t) + \alpha (( R_{t+1} + \gamma (Q(S_{t+1}, A_{t+1}))) - Q(S_t, A_t))
+
+
+### Off-policy control 
+If the agent applies the different policy with which it learnt. For example - It learns by epsilon greedy policy but interacts with environment by greedy policy. 
+It's like a person who learns from expert but applies his skills while actually riding the bike. 
+
+\textbf(Q-Learning)
+Q(S_t, A_t) = Q(S_t, A_t) + \alpha ((R_t + argmax_a Q(S_{t+1}, A_{t+1})) - Q(S_t, A_t))
+
+
+Google Colab link for Cliff Walking Problem using SARSA: [link](https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqa1psaWVCd2VKTG9YMzVNQnVXTVpWU1hDb01OQXxBQ3Jtc0tuUG81Mm8xR0RHdlRRU0tIOTJjaVRyOTNZQ1JRUGlKemtVY2RBSHd6NUpBbWQ3eFktcWhDcDFkV3hBTUxLQlhmdGdhTDg5Y2Y0RHM3eUgzU18wdzFQRGFmbUVEbDBLQ1MwVjRTdHhwUFd3MFNLWlU2UQ&q=https%3A%2F%2Fcolab.research.google.com%2Fdrive%2F1XbxqH9eZ6r-TFO6wgQUahICDSHnHbXwN%3Fusp%3Dsharing&v=PfCME1G7hKI)
+
+Google Colab link for Cliff Walking Problem using Q-Learning: [link](https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqbXdTbjE4RFBJaG5GeDBxV25rbFU2U0s4Wm1NZ3xBQ3Jtc0tsUnY3d3pEbkJXSHpFajJyMGl0M09YLVRvQ28wT1VGUVJXMXpPTkNGbGpqdE1nbmFsZGhXMXFvcUd1NGtSamhRM1N3Q3VhVkFaeFVjMm1KTElCemgyeENIcFBMYUJvS0NnVDFJaTA5cXdfSkRSMFBtdw&q=https%3A%2F%2Fcolab.research.google.com%2Fdrive%2F1NaBEZW-pSg8Uezumz1TA2peH1pVjq5qu%3Fusp%3Dsharing&v=PfCME1G7hKI)
