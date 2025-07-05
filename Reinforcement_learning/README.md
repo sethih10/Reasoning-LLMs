@@ -160,7 +160,7 @@ However, we can't wait for the episode to end.
 ### Dynamic programming
 Therefore, we used the concepts from dynamic programming (bootstrapping) to estimate the state value function as a function of immediate state value function
 
-G_t = \gamma R_{t+1} + \gamma( R_{t+2} + ...)
+G_t = R_{t+1} + \gamma( R_{t+2} + ...)
 G_t = R_{t+1} + \gamma (V(S_{t+1}))
 
 
@@ -193,3 +193,78 @@ Q(S_t, A_t) = Q(S_t, A_t) + \alpha ((R_t + argmax_a Q(S_{t+1}, A_{t+1})) - Q(S_t
 Google Colab link for Cliff Walking Problem using SARSA: [link](https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqa1psaWVCd2VKTG9YMzVNQnVXTVpWU1hDb01OQXxBQ3Jtc0tuUG81Mm8xR0RHdlRRU0tIOTJjaVRyOTNZQ1JRUGlKemtVY2RBSHd6NUpBbWQ3eFktcWhDcDFkV3hBTUxLQlhmdGdhTDg5Y2Y0RHM3eUgzU18wdzFQRGFmbUVEbDBLQ1MwVjRTdHhwUFd3MFNLWlU2UQ&q=https%3A%2F%2Fcolab.research.google.com%2Fdrive%2F1XbxqH9eZ6r-TFO6wgQUahICDSHnHbXwN%3Fusp%3Dsharing&v=PfCME1G7hKI)
 
 Google Colab link for Cliff Walking Problem using Q-Learning: [link](https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqbXdTbjE4RFBJaG5GeDBxV25rbFU2U0s4Wm1NZ3xBQ3Jtc0tsUnY3d3pEbkJXSHpFajJyMGl0M09YLVRvQ28wT1VGUVJXMXpPTkNGbGpqdE1nbmFsZGhXMXFvcUd1NGtSamhRM1N3Q3VhVkFaeFVjMm1KTElCemgyeENIcFBMYUJvS0NnVDFJaTA5cXdfSkRSMFBtdw&q=https%3A%2F%2Fcolab.research.google.com%2Fdrive%2F1NaBEZW-pSg8Uezumz1TA2peH1pVjq5qu%3Fusp%3Dsharing&v=PfCME1G7hKI)
+
+
+
+# Function Apporximation methods
+
+In most practical cases, the number of states could very large and it would be computationally expensive to train the agent by classical RL. 
+Therefore, we require a method where we can approximate the other states by knowing a subset of states. This is very similar to regression problems. 
+Here we approximate the value of states by minimizing the loss function. 
+
+w_{t+1} = w_t - \frac{\alpha}{2}\nabla[v_{\pi}(S_t) - \hat{v}(S_t, w_t)]^{2}
+w_{t+1} = w_t - \alpha [v_{\pi}(S_t) - \hat{v}(S_t, w_t)] \nabla \hat{v}(S_t, w_t)
+
+From dynamic programming, we know 
+
+G_t = R_{t+1} + \gamma( R_{t+2} + ...) = V(S_t)
+w_{t+1} = w_t - \alpha [G_t - \hat{v}(S_t, w_t)] \nabla \hat{v}(S_t, w_t)
+
+
+or from Monte carlo methods, we can just approximate
+V(S_t) = R_{t+1} + V(S_{t+1})
+
+w_{t+1} = w_t - \alpha [R_{t+1} + \gamma hat{v}(S_{t+1},w_t) - \hat{v}(S_t, w_t)] \nabla \hat{v}(S_t, w_t)
+
+This is called semi-gradient method because we do not take into the account of gradient V(S_{t+1},w_t). 
+
+## Prediction problem 
+
+Apporximating the value functions - 
+- Linear methods
+- Non-linear methods - Neural networks (Deep Reinforcement Learning)
+
+
+To find the optimal policy
+w_{t+1} = w_t + [(R_{t+1} + \gamma \hat{q}(S', A', w)) - \hat{q}(S, A, w)] \nabla q(S, A, w)
+
+
+## Control problem
+
+It remains the same.
+
+- Initialize s and for the episode (using \epsilon-greedy policy)
+- Loop the following for every step of the episode:
+- - Take action a, observe R's 
+- - Choose action a' (use \epislon-grredy policy)
+- - w_{t+1} = w_t + [(R_{t+1} + \gamma \hat{q}(S', A', w)) - \hat{q}(S, A, w)] \nabla q(S, A, w)
+
+
+# Policy gradient methods
+
+Can we directly optimize the policy instead of optimizing the function which serve as a proxy to optimize the policy? 
+
+Here, instead of finding the optimal function, we parameterize the policy 
+\pi(a|s) -> \pi(a|s,\theta)
+
+Therefore, we try to maximize a function which meansures the performance of the policy. 
+J(\theta). 
+To maximize the performance, we use 'gradient ascent'.
+
+\theta_{t+1} = \theta_t + \alpha \nabla J(\theta)
+
+However, if we think about the dependence of J(\theta), it might depend on both the policy used and the state distribution introduced by different policy. 
+This makes it complicated to differentiate. 
+
+Therefore, we use the results of 'Policy gradient theorem', which provides an analytical expression for gradient of performance metrics w.r.t policy parameter without including gradient of state distribution w.r.t policy parameter. 
+
+\nabla J(\theta) \propto
+\sum_s \underbrace{\mu(s)}_{\text{state distribution}} 
+\sum_a \underbrace{q_{\pi}(s,a)}_{\text{action-value function}} 
+\underbrace{\nabla \pi(a \mid s, \theta)}_{\text{gradient of policy}}
+
+
+J(\theta) = \underbrace{v_{\pi}(s_0)}_{\text{value function at initial state}}
+
+
+Proof: [link](https://miro.com/app/board/uXjVIsgkBts=/)
