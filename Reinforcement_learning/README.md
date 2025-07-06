@@ -356,8 +356,8 @@ This leads to estimated value as
 
 \hat{A(s_t, a_t)} =  (1-\lambda)(1-step return) + (1-\lambda)\lambda(2-step return) + ... (1-\lambda)\lambda^{n-1}(n-step return) - v_{\pi}(s_t)
 
-This is known as Generalized advantage estimation
+This is known as Generalized advantage estimation. This method allows us to control the compromise between bias and variance in the policy gradient methods. 
 
-\lambda = 0 leads to Temporal difference estimate with high bias and low variance 
+$$\lambda = 0$$ leads to Temporal difference estimate with high bias and low variance 
 
-\lambda = 1 leads to Monte Carlo estimate with low bias and high variance
+$$\lambda = 1$$ leads to Monte Carlo estimate with low bias and high variance
