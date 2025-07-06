@@ -268,3 +268,57 @@ J(\theta) = \underbrace{v_{\pi}(s_0)}_{\text{value function at initial state}}
 
 
 Proof: [link](https://miro.com/app/board/uXjVIsgkBts=/)
+
+
+## REINFORCE 
+
+We use the concept of expected value from probability 
+E(f(x)) = xf(x)
+
+So, 
+
+\nabla J(\theta) \propto E_{\pi}[ \sum_a q_{\pi}(s,a) \nabla \pi(a \mid s, \theta)]
+
+
+This gives 
+\theta_{t+1} = \theta_t + \alpha (\sum_a q_{\pi}(s,a) \nabla \pi(a \mid s, \theta))
+
+
+Now, we can even absorb the summation of action value 
+
+E_{\pi}[ \sum_a q_{\pi}(s,a) \nabla \pi(a \mid s, \theta)]
+
+= E_{\pi}[ \sum_a \pi(a|s,\theta) q_{\pi}(s,a) \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)}]
+
+= E_{\pi}[ E_{\pi} [q_{\pi}(s,a)] \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)}]
+
+= E_{\pi}[ q_{\pi}(s,a) \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)}]
+
+\nabla J(\theta) \propto E_{\pi}[ q_{\pi}(s,a) \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)}]
+
+We also know, 
+
+q_{\pi}(s,a) = E(R_{t+1} + \gamma R_{t+2} + ...) = E(G_t)
+
+So, 
+
+\nabla J(\theta) \propto E_{\pi}[ G_t \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)}]
+
+
+This gives 
+\theta_{t+1} = \theta_t + \alpha (G_t \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)})
+
+
+## REINFORCE with Baseline
+
+G_t might lead to fluctations, therefore we introduce a baseline v(s,a) to control variance. 
+
+\theta_{t+1} = \theta_t + \alpha ((G_t - \hat{v}(s,w)) \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)})
+
+
+## Actor-Critic method
+
+Expected return G_t requires agent to complete the episode. However, we can use the concepts from temporal difference learning to approximate G_t without waiting for the episode to complete. 
+
+\theta_{t+1} = \theta_t + \alpha (((R_{t+1} + \gamma \hat{v}(s_{t+1}, w)) - \hat{v}(s,w)) \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)})
+
