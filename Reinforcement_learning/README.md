@@ -322,3 +322,42 @@ Expected return G_t requires agent to complete the episode. However, we can use 
 
 \theta_{t+1} = \theta_t + \alpha (((R_{t+1} + \gamma \hat{v}(s_{t+1}, w)) - \hat{v}(s,w)) \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)})
 
+
+
+# Generalized Advantage estimation
+
+We define an advantage function which tells about whether there can be improvement in the current policy. It is give by -
+
+A(s_t, a_t) = q_{\pi}(a_t|s_t) - v_{\pi}(s_t)
+
+If this is positive, it means there is room for improvement. 
+
+\nabla J(\theta) \propto E_{\pi}[ (q_{\pi}(a|s) - v_{\pi}(s)) \nabla log \pi(a \mid s, \theta)]
+
+(using \nabla log f(x) = \frac{\nabla f(x)}{f(x)})
+
+
+We can use the definition of action value function 
+
+q_{\pi}(a|s) = E_{\pi} [G_t | s_t, a_t] = E_{\pi} [R_t + \gamma(R_{t+1} + R_{t+1} + ... )]
+
+q_{\pi}(a|s) = R_t + \gamma E_{\pi} [(R_{t+1} + R_{t+1} + ... )] = R_t + \gamma  v_{\pi}(s_{t+1})
+
+This leads to approximate advantage function as 
+
+\hat{A(s_t, a_t)} =  R_t + \gamma  v_{\pi}(s_{t+1}) - v_{\pi}(s_t)
+
+However, this is a one step and gives too much preference to the next state. Therefore, to balance and bias, we take the average of n-step. 
+
+q_{\pi} estimate for 2-step: r_t + \gamma r_{t+1} + \gamma^{2} v_{\pi}(s_{t+2})
+Similarly for n-step
+
+This leads to estimated value as 
+
+\hat{A(s_t, a_t)} =  (1-\lambda)(1-step return) + (1-\lambda)\lambda(2-step return) + ... (1-\lambda)\lambda^{n-1}(n-step return) - v_{\pi}(s_t)
+
+This is known as Generalized advantage estimation
+
+\lambda = 0 leads to Temporal difference estimate with high bias and low variance 
+
+\lambda = 1 leads to Monte Carlo estimate with low bias and high variance
