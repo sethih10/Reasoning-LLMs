@@ -349,12 +349,12 @@ $$ \hat{A(s_t, a_t)} =  R_t + \gamma  v_{\pi}(s_{t+1}) - v_{\pi}(s_t) $$
 
 However, this is a one step and gives too much preference to the next state. Therefore, to balance and bias, we take the average of n-step. 
 
-$$ q_{\pi} $$ estimate for 2-step: $$ r_t + \gamma r_{t+1} + \gamma^{2} v_{\pi}(s_{t+2}) $$
+$ q_{\pi} $ estimate for 2-step: $ r_t + \gamma r_{t+1} + \gamma^{2} v_{\pi}(s_{t+2}) $
 Similarly for n-step
 
 This leads to estimated value as 
 
-$ \hat{A(s_t, a_t)} =  (1-\lambda)$(1-step return) $+ (1-\lambda)\lambda$(2-step return) + ... $(1-\lambda)\lambda^{n-1}$(n-step return) - $v_{\pi}(s_t)$
+$ \hat{A(s_t, a_t)}$ =  $(1-\lambda)$(1-step return) $+ (1-\lambda)\lambda$(2-step return) + ... $(1-\lambda)\lambda^{n-1}$(n-step return) - $v_{\pi}(s_t)$
 This is known as Generalized advantage estimation. This method allows us to control the compromise between bias and variance in the policy gradient methods. 
 
 $$\lambda = 0$$ leads to Temporal difference estimate with high bias and low variance 
