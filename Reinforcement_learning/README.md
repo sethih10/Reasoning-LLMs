@@ -369,12 +369,14 @@ We define performance measure as $n(\pi)$:
 $$ n(\pi) = v_{\pi}(s_o) $$
 
 New policy: 
-$$ n(\pi^{'}) = v_{\pi^{'}}(s_o) = E_{\pi^{'}}[\sum_{k=0}^{\infnty} \gamma_{k}R(S_t)] = E_{\pi^{'}}[\sum_{k=0}^{\infnty} \gamma_{k}R(S_t) - v_{\pi}(s_o) + v_{\pi}(s_o)] $$
 
 
-$$ n(\pi^{'}) - n(\pi) = E_{\pi^{'}}[\sum_{k=0}^{\infnty} \gamma_{k}R(S_t) - v_{\pi}(s_o) + v_{\pi}(s_o)] - v_{\pi}(s_o) $$
+$$ n(\pi^{'}) = v_{\pi^{'}}(s_o) = E_{\pi^{'}}[\sum_{k=0}^{\infty} \gamma_{k}R(S_t)] = E_{\pi^{'}}[\sum_{k=0}^{\infty} \gamma_{k}R(S_t) - v_{\pi}(s_o) + v_{\pi}(s_o)] $$
 
-$$ n(\pi^{'}) - n(\pi) = E_{\pi^{'}}[\sum_{k=0}^{\infnty} \gamma_{k}R(S_t) - v_{\pi}(s_o)] $$
+
+$$ n(\pi^{'}) - n(\pi) = E_{\pi^{'}}[\sum_{k=0}^{\infty} \gamma_{k}R(S_t) - v_{\pi}(s_o) + v_{\pi}(s_o)] - v_{\pi}(s_o) $$
+
+$$ n(\pi^{'}) - n(\pi) = E_{\pi^{'}}[\sum_{k=0}^{\infty} \gamma_{k}R(S_t) - v_{\pi}(s_o)] $$
 This gives the difference between two policies and gives us information about which one is better. 
 
 Now, we try to find the advantage function:
@@ -382,17 +384,17 @@ Now, we try to find the advantage function:
 $$ A(s_t, a_t) = q_{\pi}(a_t|s_t) - v_{\pi}(s_t) = R_t + \gamma v(s_{t+1}) - v(s_t) $$
 
 
-$$ \sum_{k=0}^{\infnty} \gamma^{k}A_{\pi}(s_t, a_t) = \sum_{k=0}^{\infnty}[\gamma^{k}R_t + \gamma^{k+1} v(s_{t+1}) -  \gamma^{k}v(s_t)]$$ 
+$$ \sum_{k=0}^{\infty} \gamma^{k}A_{\pi}(s_t, a_t) = \sum_{k=0}^{\infty}[\gamma^{k}R_t + \gamma^{k+1} v(s_{t+1}) -  \gamma^{k}v(s_t)]$$ 
 
 
-$$ \sum_{k=0}^{\infnty} \gamma^{k}A_{\pi}(s_t, a_t) = \sum_{k=0}^{\infnty}[\gamma^{k}R_t  - \gamma v(s_t)] $$ 
+$$ \sum_{k=0}^{\infty} \gamma^{k}A_{\pi}(s_t, a_t) = \sum_{k=0}^{\infty}[\gamma^{k}R_t  - \gamma v(s_t)] $$ 
 
 
 This is equal to what we calculated before. Therefore, 
 
-$$ n(\pi^{'}) - n(\pi) = E_{\pi^{'}}[\sum_{k=0}^{\infnty} \gamma^{k}A(s_t, a_t)] $$
+$$ n(\pi^{'}) - n(\pi) = E_{\pi^{'}}[\sum_{k=0}^{\infty} \gamma^{k}A(s_t, a_t)] $$
 
-$$ n(\pi^{'}) - n(\pi) = \sum_{s}\sum_{k=0}^{\infnty} \gamma^{k} P(s|\pi) \sum_{a}\pi(a'|s) A_{\pi}(s_t, a_t) $$ 
+$$ n(\pi^{'}) - n(\pi) = \sum_{s}\sum_{k=0}^{\infty} \gamma^{k} P(s|\pi) \sum_{a}\pi(a'|s) A_{\pi}(s_t, a_t) $$ 
 
 
 $$ p(s) = P(s_0) + \gamma P(s_1) + ...$$
