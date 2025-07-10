@@ -369,12 +369,12 @@ We define performance measure as $n(\pi)$:
 $$ n(\pi) = v_{\pi}(s_o) $$
 
 New policy: 
-$$ n(\pi^') = v_{\pi^'}(s_o) = E_{\pi^'}[\sum_{k=0}^{\infnty} \gamma_{k}R(S_t)] = E_{\pi^'}[\sum_{k=0}^{\infnty} \gamma_{k}R(S_t) - v_{\pi}(s_o) + v_{\pi}(s_o)] $$
+$$ n(\pi^{'}) = v_{\pi^{'}}(s_o) = E_{\pi^{'}}[\sum_{k=0}^{\infnty} \gamma_{k}R(S_t)] = E_{\pi^{'}}[\sum_{k=0}^{\infnty} \gamma_{k}R(S_t) - v_{\pi}(s_o) + v_{\pi}(s_o)] $$
 
 
-$$ n(\pi^') - n(\pi) = E_{\pi^'}[\sum_{k=0}^{\infnty} \gamma_{k}R(S_t) - v_{\pi}(s_o) + v_{\pi}(s_o)] - v_{\pi}(s_o) $$
+$$ n(\pi^{'}) - n(\pi) = E_{\pi^{'}}[\sum_{k=0}^{\infnty} \gamma_{k}R(S_t) - v_{\pi}(s_o) + v_{\pi}(s_o)] - v_{\pi}(s_o) $$
 
-$$ n(\pi^') - n(\pi) = E_{\pi^'}[\sum_{k=0}^{\infnty} \gamma_{k}R(S_t) - v_{\pi}(s_o)] $$
+$$ n(\pi^{'}) - n(\pi) = E_{\pi^{'}}[\sum_{k=0}^{\infnty} \gamma_{k}R(S_t) - v_{\pi}(s_o)] $$
 This gives the difference between two policies and gives us information about which one is better. 
 
 Now, we try to find the advantage function:
@@ -390,30 +390,30 @@ $$ \sum_{k=0}^{\infnty} \gamma^{k}A_{\pi}(s_t, a_t) = \sum_{k=0}^{\infnty}[\gamm
 
 This is equal to what we calculated before. Therefore, 
 
-$$ n(\pi^') - n(\pi) = E_{\pi^'}[\sum_{k=0}^{\infnty} \gamma^{k}A(s_t, a_t)] $$
+$$ n(\pi^{'}) - n(\pi) = E_{\pi^{'}}[\sum_{k=0}^{\infnty} \gamma^{k}A(s_t, a_t)] $$
 
-$$ n(\pi^') - n(\pi) = \sum_{s}\sum_{k=0}^{\infnty} \gamma^{k} P(s|\pi) \sum_{a}\pi(a'|s) A_{\pi}(s_t, a_t) $$ 
+$$ n(\pi^{'}) - n(\pi) = \sum_{s}\sum_{k=0}^{\infnty} \gamma^{k} P(s|\pi) \sum_{a}\pi(a'|s) A_{\pi}(s_t, a_t) $$ 
 
 
 $$ p(s) = P(s_0) + \gamma P(s_1) + ...$$
 
-$$ n(\pi^') - n(\pi) = \sum_{s}p_{\pi^'}(s)\sum_{a}\pi(a'|s) A_{\pi}(s_t, a_t) $$ 
+$$ n(\pi^{'}) - n(\pi) = \sum_{s}p_{\pi^{'}}(s)\sum_{a}\pi(a'|s) A_{\pi}(s_t, a_t) $$ 
 
 
-Assume $p_{\pi^'}(s)$  = $p_{\pi}(s)$, this is an assumption to simplify the problem since we don't have state distribution information of new policy. 
+Assume $p_{\pi^{'}}(s)$  = $p_{\pi}(s)$, this is an assumption to simplify the problem since we don't have state distribution information of new policy. 
 
 Now, Approximate perfomance
 
-$$ L_{\pi}(\pi^') = n(\pi) + \sum_{s}p_{\pi}(s)\sum_{a}\pi(a'|s) A_{\pi}(s_t, a_t) $$ 
+$$ L_{\pi}(\pi^{'}) = n(\pi) + \sum_{s}p_{\pi}(s)\sum_{a}\pi(a'|s) A_{\pi}(s_t, a_t) $$ 
 
 
 Using the theorem 1: 
 
 We use a surrogate model
 
-$$ n(\pi^') \greateq L_{\pi}(\pi^')  - C D_{KL}^{max}(\pi, \pi^{'}) $$
+$$ n(\pi^{'}) \greateq L_{\pi}(\pi^{'})  - C D_{KL}^{max}(\pi, \pi^{'}) $$
 
 
 Now, to find the optimal policy, we use: 
 
-$$ \pi_{i+1} = argmax[L_{\pi}(\pi^')  - C D_{KL}^{max}(\pi, \pi^{'})] $$
+$$ \pi_{i+1} = argmax[L_{\pi}(\pi^{'})  - C D_{KL}^{max}(\pi, \pi^{'})] $$
