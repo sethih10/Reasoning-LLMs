@@ -377,6 +377,7 @@ $$ n(\pi^{'}) = v_{\pi^{'}}(s_o) = E_{\pi^{'}}[\sum_{k=0}^{\infty} \gamma_{k}R(S
 $$ n(\pi^{'}) - n(\pi) = E_{\pi^{'}}[\sum_{k=0}^{\infty} \gamma_{k}R(S_t) - v_{\pi}(s_o) + v_{\pi}(s_o)] - v_{\pi}(s_o) $$
 
 $$ n(\pi^{'}) - n(\pi) = E_{\pi^{'}}[\sum_{k=0}^{\infty} \gamma_{k}R(S_t) - v_{\pi}(s_o)] $$
+
 This gives the difference between two policies and gives us information about which one is better. 
 
 Now, we try to find the advantage function:
