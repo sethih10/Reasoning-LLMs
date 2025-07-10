@@ -15,8 +15,8 @@ It is toy example of compex reinforcement learning problems. It is modelled as m
 
 Value action method - In this method, the agent interacts with environment, we reward it on the basis of correct action. We see the long term behaviour of the value action for each lever and that's how we get the expected probability to choose the best lever. 
 
-qi(a) = 1 if you win
-qi(a) = 0 if you lose
+$q_i(a)$ = 1 if you win
+#q_i(a)$ = 0 if you lose
 
 This can also be linked to average law over large numbers since we tend to get the estimation of most probable winner with large number of interactions. Note - we do not use greedy search i.e. we do not always choose the most probable rewarding lever during interactions since it can leave us with a local minima. 
 We use exploration and exploitation. 
@@ -360,3 +360,60 @@ This is known as Generalized advantage estimation. This method allows us to cont
 $$\lambda = 0$$ leads to Temporal difference estimate with high bias and low variance 
 
 $$\lambda = 1$$ leads to Monte Carlo estimate with low bias and high variance
+
+
+# Trust Region Policy Optimization 
+
+We define performance measure as $n(\pi)$: 
+
+$$ n(\pi) = v_{\pi}(s_o) $$
+
+New policy: 
+$$ n(\pi^') = v_{\pi^'}(s_o) = E_{\pi^'}[\sum_{k=0}^{\infnty} \gamma_{k}R(S_t)] = E_{\pi^'}[\sum_{k=0}^{\infnty} \gamma_{k}R(S_t) - v_{\pi}(s_o) + v_{\pi}(s_o)] $$
+
+
+$$ n(\pi^') - n(\pi) = E_{\pi^'}[\sum_{k=0}^{\infnty} \gamma_{k}R(S_t) - v_{\pi}(s_o) + v_{\pi}(s_o)] - v_{\pi}(s_o) $$
+
+$$ n(\pi^') - n(\pi) = E_{\pi^'}[\sum_{k=0}^{\infnty} \gamma_{k}R(S_t) - v_{\pi}(s_o)] $$
+This gives the difference between two policies and gives us information about which one is better. 
+
+Now, we try to find the advantage function:
+
+$$ A(s_t, a_t) = q_{\pi}(a_t|s_t) - v_{\pi}(s_t) = R_t + \gamma v(s_{t+1}) - v(s_t) $$
+
+
+$$ \sum_{k=0}^{\infnty} \gamma^{k}A_{\pi}(s_t, a_t) = \sum_{k=0}^{\infnty}[\gamma^{k}R_t + \gamma^{k+1} v(s_{t+1}) -  \gamma^{k}v(s_t)]$$ 
+
+
+$$ \sum_{k=0}^{\infnty} \gamma^{k}A_{\pi}(s_t, a_t) = \sum_{k=0}^{\infnty}[\gamma^{k}R_t  - \gamma v(s_t)] $$ 
+
+
+This is equal to what we calculated before. Therefore, 
+
+$$ n(\pi^') - n(\pi) = E_{\pi^'}[\sum_{k=0}^{\infnty} \gamma^{k}A(s_t, a_t)] $$
+
+$$ n(\pi^') - n(\pi) = \sum_{s}\sum_{k=0}^{\infnty} \gamma^{k} P(s|\pi) \sum_{a}\pi(a'|s) A_{\pi}(s_t, a_t) $$ 
+
+
+$$ p(s) = P(s_0) + \gamma P(s_1) + ...$$
+
+$$ n(\pi^') - n(\pi) = \sum_{s}p_{\pi^'}(s)\sum_{a}\pi(a'|s) A_{\pi}(s_t, a_t) $$ 
+
+
+Assume $p_{\pi^'}(s)$  = $p_{\pi}(s)$, this is an assumption to simplify the problem since we don't have state distribution information of new policy. 
+
+Now, Approximate perfomance
+
+$$ L_{\pi}(\pi^') = n(\pi) + \sum_{s}p_{\pi}(s)\sum_{a}\pi(a'|s) A_{\pi}(s_t, a_t) $$ 
+
+
+Using the theorem 1: 
+
+We use a surrogate model
+
+$$ n(\pi^') \greateq L_{\pi}(\pi^')  - C D_{KL}^{max}(\pi, \pi^{'}) $$
+
+
+Now, to find the optimal policy, we use: 
+
+$$ \pi_{i+1} = argmax[L_{\pi}(\pi^')  - C D_{KL}^{max}(\pi, \pi^{'})] $$
