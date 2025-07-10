@@ -413,7 +413,7 @@ Using the theorem 1:
 
 We use a surrogate model
 
-$$ n(\pi^{'}) \greateq L_{\pi}(\pi^{'})  - C D_{KL}^{max}(\pi, \pi^{'}) $$
+$$ n(\pi^{'}) \geq L_{\pi}(\pi^{'})  - C D_{KL}^{max}(\pi, \pi^{'}) $$
 
 
 Now, to find the optimal policy, we use: 
