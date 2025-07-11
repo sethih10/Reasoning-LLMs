@@ -1,6 +1,6 @@
 # Reinforcement Learning Basics
 
-Policy - Defines the behaviour of the agent and it's interaction with the environment. 
+Policy - Defines the behaviour of the agent and it's \interaction with the environment. 
 
 Reward Signal - Maximizes the short term success 
 
@@ -11,14 +11,14 @@ Model - Sometimes environment can be complex so we use some mathematical models 
 
 # Multi-arm bandit problem 
 
-It is toy example of compex reinforcement learning problems. It is modelled as multi-lever game where pulling one particular lever increases the probability of winning, however we need to find that lever and we don't have initial states. 
+It is toy example of compex reinforcement learning problems. It is modelled as multi-lever game where pulling one particular lever \increases the probability of winning, however we need to find that lever and we don't have \initial states. 
 
-Value action method - In this method, the agent interacts with environment, we reward it on the basis of correct action. We see the long term behaviour of the value action for each lever and that's how we get the expected probability to choose the best lever. 
+Value action method - \in this method, the agent \interacts with environment, we reward it on the basis of correct action. We see the long term behaviour of the value action for each lever and that's how we get the expected probability to choose the best lever. 
 
 $q_i(a)$ = 1 if you win
 #q_i(a)$ = 0 if you lose
 
-This can also be linked to average law over large numbers since we tend to get the estimation of most probable winner with large number of interactions. Note - we do not use greedy search i.e. we do not always choose the most probable rewarding lever during interactions since it can leave us with a local minima. 
+This can also be linked to average law over large numbers since we tend to get the estimation of most probable winner with large number of \interactions. Note - we do not use greedy search i.e. we do not always choose the most probable rewarding lever during \interactions since it can leave us with a local minima. 
 We use exploration and exploitation. 
 At the end, 
 
@@ -29,7 +29,7 @@ we get all the average value action for each lever i.e. the probability of most 
 
 # Markov Decision process
 
- - Agent-Environment Interface -
+ - Agent-Environment \interface -
  State - Tells about the state of the system like temperature, energy level, etc. 
  Action - Immediate task/action that agent should do 
  Policy - Action that needs to be done by the system depending on the state. /pi(a|s)
@@ -38,10 +38,10 @@ we get all the average value action for each lever i.e. the probability of most 
 Rewards - Immediate rewards (rt) given to the agent depending on the action  taken at time step t
 Expected returns - Average of all the rewards from time step t to end time step T (gt = rt + r_{t+1} + .. + r_T)
 
-This gives rise to model problems in two ways 
+This gives rise to model problems \in two ways 
 
-- Episodic - In this, you know the time step at which agent stops interacting  like chess. 
-- Continuous - We don't know the time at which agent stops interacting such as in exploration task where you continuosly try to find information. Therefore, in continuous system, we try to decrease the importance of reward from future in the expected return by introducing an exponetial decreasing term \gamma as a factor. 
+- Episodic - \in this, you know the time step at which agent stops \interacting  like chess. 
+- Continuous - We don't know the time at which agent stops \interacting such as \in exploration task where you continuosly try to find \information. Therefore, \in continuous system, we try to decrease the importance of reward from future \in the expected return by \introducing an exponetial decreasing term \gamma as a factor. 
 G_t = /sum_{k = 0}{/infinity}\gammaˆkR_{t+k}
 
 
@@ -85,7 +85,7 @@ v_{*}(s) = max_{A} \sum_{s', r} P(S', r|S, A) (r + \gamma v_{*}(s'))
 
 v_{\pi}(s) = \sum_a \pi(a|s) \sum_{s', r} p(S', R|S, A)(r + \gamma*v_{\pi}(S'))
 
-To find the state value function, we usually start with zero, and iterate to infinity to find the correct state values. 
+To find the state value function, we usually start with zero, and iterate to \infinity to find the correct state values. 
 
 v_{k+1} = \sum_{a} \pi(a|s) \sum_{S', R} p(S', R|S, A) (R + \gamma v_{k}(s'))
 
@@ -105,38 +105,38 @@ v_{*} (s) = max_{a \epsilon A} q_{\pi^{*}}(s, a)
 
 v_{k+1} (s) = max_{a \epsilon A}  \sum_{S', R} p(S', R|S, A) (R + \gamma v_{k}(s'))
 
-This method is called as value iteration. It reduces the 2 step of policy evaluation and policy iteration into one single step. 
+This method is called as value iteration. It reduces the 2 step of policy evaluation and policy iteration \into one single step. 
 
 Policy iteration 
 \pi_{0} -> v_{\pi_{0}}
 v_{\pi_{0}} -> \pi_{1}
 
-Dynamic programming requires the prior knowledge of the environment and it's interaction with the environment i.e. transition probabilities. 
+Dynamic programming requires the prior knowledge of the environment and it's \interaction with the environment i.e. transition probabilities. 
 
 
 
 # Monte Carlo methods 
 
-In dynamic programming, we need to know all the transition probabilities i.e. know about the environment but this is not ideal in real life cases. Therefore, we require a mathematical tool that helps to identify the optimal policy while interacting with environment and not knowing probabilities of agent interacting with environment. In Monte Carlo, agent continuously interacts with environment and updata it's action value function. After several trials, we reach an optimal action value function and hence optimal policy. 
+In dynamic programming, we need to know all the transition probabilities i.e. know about the environment but this is not ideal \in real life cases. Therefore, we require a mathematical tool that helps to identify the optimal policy while \interacting with environment and not knowing probabilities of agent \interacting with environment. \in Monte Carlo, agent continuously \interacts with environment and updata it's action value function. After several trials, we reach an optimal action value function and hence optimal policy. 
 
 \pi_{0} -> q_{\pi_{0}}(S, A)
 q_{\pi_{0}}(S, A) -> \pi_{1}
 
-However, in this case, there might be a case our agent might be stuck with some kind of local mazima. Therefore, we use epsilon greedy policy which allows exploration and not just exploitation. 
+However, \in this case, there might be a case our agent might be stuck with some kind of local mazima. Therefore, we use epsilon greedy policy which allows exploration and not just exploitation. 
 
 There are two kinds of Monte Carlo methods - 
-On-policy - The policy with which agent interacts to generate data is same as the target policy. 
+On-policy - The policy with which agent \interacts to generate data is same as the target policy. 
 
-Off-policy - The policy with which agent interacts to generate data, known as behaviour policy is different from target policy. (Need to understand more!!!)
+Off-policy - The policy with which agent \interacts to generate data, known as behaviour policy is different from target policy. (Need to understand more!!!)
 
 Interactive Example to demonstrate on-policy Monte-Carlo control: [link](https://claude.ai/public/artifacts/1e531122-1b45-4337-86a2-df8bc2ac531b)
 
-Interactive Example to demonstrate Importance Sampling Ratio used in off-policy Monte-Carlo methods (not the focus of this lecture): [link](https://claude.ai/public/artifacts/8a773548-d360-418b-a20b-d427dc7a1952)
+Interactive Example to demonstrate Importance Sampling Ratio used \in off-policy Monte-Carlo methods (not the focus of this lecture): [link](https://claude.ai/public/artifacts/8a773548-d360-418b-a20b-d427dc7a1952)
 
 
 # Temporal difference learning
 
-It is a combination of dynamic programming and monte carlo methods, which gives the benefit of not knowing the interaction with environment and not need to wait for the whole episode to complete. 
+It is a combination of dynamic programming and monte carlo methods, which gives the benefit of not knowing the \interaction with environment and not need to wait for the whole episode to complete. 
 
 ## Prediction problem 
 
@@ -183,7 +183,7 @@ Q(S_t, A_t) = Q(S_t, A_t) + \alpha (( R_{t+1} + \gamma (Q(S_{t+1}, A_{t+1}))) - 
 
 
 ### Off-policy control 
-If the agent applies the different policy with which it learnt. For example - It learns by epsilon greedy policy but interacts with environment by greedy policy. 
+If the agent applies the different policy with which it learnt. For example - It learns by epsilon greedy policy but \interacts with environment by greedy policy. 
 It's like a person who learns from expert but applies his skills while actually riding the bike. 
 
 \textbf(Q-Learning)
@@ -216,7 +216,7 @@ V(S_t) = R_{t+1} + V(S_{t+1})
 
 w_{t+1} = w_t - \alpha [R_{t+1} + \gamma hat{v}(S_{t+1},w_t) - \hat{v}(S_t, w_t)] \nabla \hat{v}(S_t, w_t)
 
-This is called semi-gradient method because we do not take into the account of gradient V(S_{t+1},w_t). 
+This is called semi-gradient method because we do not take \into the account of gradient V(S_{t+1},w_t). 
 
 ## Prediction problem 
 
@@ -233,7 +233,7 @@ w_{t+1} = w_t + [(R_{t+1} + \gamma \hat{q}(S', A', w)) - \hat{q}(S, A, w)] \nabl
 
 It remains the same.
 
-- Initialize s and for the episode (using \epsilon-greedy policy)
+- \initialize s and for the episode (using \epsilon-greedy policy)
 - Loop the following for every step of the episode:
 - - Take action a, observe R's 
 - - Choose action a' (use \epislon-grredy policy)
@@ -242,9 +242,9 @@ It remains the same.
 
 # Policy gradient methods
 
-Can we directly optimize the policy instead of optimizing the function which serve as a proxy to optimize the policy? 
+Can we directly optimize the policy \instead of optimizing the function which serve as a proxy to optimize the policy? 
 
-Here, instead of finding the optimal function, we parameterize the policy 
+Here, \instead of finding the optimal function, we parameterize the policy 
 \pi(a|s) -> \pi(a|s,\theta)
 
 Therefore, we try to maximize a function which meansures the performance of the policy. 
@@ -253,10 +253,10 @@ To maximize the performance, we use 'gradient ascent'.
 
 \theta_{t+1} = \theta_t + \alpha \nabla J(\theta)
 
-However, if we think about the dependence of J(\theta), it might depend on both the policy used and the state distribution introduced by different policy. 
+However, if we think about the dependence of J(\theta), it might depend on both the policy used and the state distribution \introduced by different policy. 
 This makes it complicated to differentiate. 
 
-Therefore, we use the results of 'Policy gradient theorem', which provides an analytical expression for gradient of performance metrics w.r.t policy parameter without including gradient of state distribution w.r.t policy parameter. 
+Therefore, we use the results of 'Policy gradient theorem', which provides an analytical expression for gradient of performance metrics w.r.t policy parameter without \including gradient of state distribution w.r.t policy parameter. 
 
 \nabla J(\theta) \propto
 \sum_s \underbrace{\mu(s)}_{\text{state distribution}} 
@@ -264,7 +264,7 @@ Therefore, we use the results of 'Policy gradient theorem', which provides an an
 \underbrace{\nabla \pi(a \mid s, \theta)}_{\text{gradient of policy}}
 
 
-J(\theta) = \underbrace{v_{\pi}(s_0)}_{\text{value function at initial state}}
+J(\theta) = \underbrace{v_{\pi}(s_0)}_{\text{value function at \initial state}}
 
 
 Proof: [link](https://miro.com/app/board/uXjVIsgkBts=/)
@@ -311,7 +311,7 @@ This gives
 
 ## REINFORCE with Baseline
 
-G_t might lead to fluctations, therefore we introduce a baseline v(s,a) to control variance. 
+G_t might lead to fluctations, therefore we \introduce a baseline v(s,a) to control variance. 
 
 \theta_{t+1} = \theta_t + \alpha ((G_t - \hat{v}(s,w)) \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)})
 
@@ -326,7 +326,7 @@ Expected return G_t requires agent to complete the episode. However, we can use 
 
 # Generalized Advantage estimation
 
-We define an advantage function which tells about whether there can be improvement in the current policy. It is give by -
+We define an advantage function which tells about whether there can be improvement \in the current policy. It is give by -
 
 A(s_t, a_t) = q_{\pi}(a_t|s_t) - v_{\pi}(s_t)
 
@@ -355,7 +355,7 @@ Similarly for n-step
 This leads to estimated value as 
 
 $ \hat{A(s_t, a_t)}$ =  $(1-\lambda)$(1-step return) $+ (1-\lambda)\lambda$(2-step return) + ... $(1-\lambda)\lambda^{n-1}$(n-step return) - $v_{\pi}(s_t)$
-This is known as Generalized advantage estimation. This method allows us to control the compromise between bias and variance in the policy gradient methods. 
+This is known as Generalized advantage estimation. This method allows us to control the compromise between bias and variance \in the policy gradient methods. 
 
 $$\lambda = 0$$ leads to Temporal difference estimate with high bias and low variance 
 
@@ -378,7 +378,7 @@ $$ n(\pi^{'}) - n(\pi) = E_{\pi^{'}}[\sum_{k=0}^{\infty} \gamma_{k}R(S_t) - v_{\
 
 $$ n(\pi^{'}) - n(\pi) = E_{\pi^{'}}[\sum_{k=0}^{\infty} \gamma_{k}R(S_t) - v_{\pi}(s_o)] $$
 
-This gives the difference between two policies and gives us information about which one is better. 
+This gives the difference between two policies and gives us \information about which one is better. 
 
 Now, we try to find the advantage function:
 
@@ -403,7 +403,7 @@ $$ p(s) = P(s_0) + \gamma P(s_1) + ...$$
 $$ n(\pi^{'}) - n(\pi) = \sum_{s}p_{\pi^{'}}(s)\sum_{a}\pi(a'|s) A_{\pi}(s_t, a_t) $$ 
 
 
-Assume $p_{\pi^{'}}(s)$  = $p_{\pi}(s)$, this is an assumption to simplify the problem since we don't have state distribution information of new policy. 
+Assume $p_{\pi^{'}}(s)$  = $p_{\pi}(s)$, this is an assumption to simplify the problem since we don't have state distribution \information of new policy. 
 
 Now, Approximate perfomance
 
@@ -423,7 +423,7 @@ Now, to find the optimal policy, we use:
 $$ \pi_{i+1} = argmax[L_{\pi}(\pi^{'})  - C D_{KL}^{max}(\pi, \pi^{'})] $$
 
 
-## TRPO solution 
+## TRPO solution methodology
 
 $$ argmax_{\pi_{new}}[L_{\pi_{old}}(\pi_{new})]  $$
 
@@ -441,11 +441,11 @@ However, this is difficult to solve, therefore we simplify
 We use the expectation formula to reduce it to: 
 
 
-$$ L_{\pi_{old}}(\pi^{new}) = n(\pi_{old}) + E_{s in S}[\sum_{a}\pi_{new}(a|s) A_{\pi_{old}}(s, a)] $$ 
+$$ L_{\pi_{old}}(\pi^{new}) = n(\pi_{old}) + E_{s \in S}[\sum_{a}\pi_{new}(a|s) A_{\pi_{old}}(s, a)] $$ 
 
 Since we will be finding gradient, we can remove the constant $n(\pi_{old})$
 
-$$ L_{\pi_{old}}(\pi^{new}) = E_{s in S}[\sum_{a}\pi_{new}(a|s) A_{\pi_{old}}(s, a)] $$ 
+$$ L_{\pi_{old}}(\pi^{new}) = E_{s \in S}[\sum_{a}\pi_{new}(a|s) A_{\pi_{old}}(s, a)] $$ 
 
 
 ### Concept 2: 
@@ -461,7 +461,7 @@ $$ A_{\pi_old}(s,a) = Q_{\pi_{old}}(s,a) $$
 
 So, now the expression is: 
 
-$$ L_{\pi_{old}}(\pi^{new}) = E_{s in S}[\sum_{a}\pi_{new}(a|s) Q_{\pi_{old}}(s,a)] $$ 
+$$ L_{\pi_{old}}(\pi^{new}) = E_{s \in S}[\sum_{a}\pi_{new}(a|s) Q_{\pi_{old}}(s,a)] $$ 
 
 
 ### Concept 3: 
@@ -483,18 +483,18 @@ $$ \text{Maximize}[E_{a \in \pi_{old}}[ \frac{\pi_{new}(a|s)}{\pi_{old}(a|s)} Q_
 
 This can be approximated using Taylor Series, 
 
-$$ f(\theta) = f(\theta_{old}) + (\theta - \theta_{old}) \grad f(\theta)$$
+$$ f(\theta) = f(\theta_{old}) + (\theta - \theta_{old}) \nabla f(\theta)$$
 
 $$ f(\theta) = [E_{a \in \pi_{old}}[ \frac{\pi_{new}(a|s)}{\pi_{old}(a|s)} Q_{\pi_{old}}(s,a)]] $$ 
 
-$$ f(\theta) = \underbrace{E_{a \in \pi_{old}}[ Q_{\pi_{old}}(s,a)]}_{\text{const.}} + (\theta - \theta_{old})\underbrace{[E_{a \in \pi_{old}}[ \frac{\grad \pi_{new}(a|s)}{\pi_{old}(a|s)} Q_{\pi_{old}}(s,a)]]}_{\text{g}} $$ 
+$$ f(\theta) = \underbrace{E_{a \in \pi_{old}}[ Q_{\pi_{old}}(s,a)]}_{\text{const.}} + (\theta - \theta_{old})\underbrace{[E_{a \in \pi_{old}}[ \frac{\nabla \pi_{new}(a|s)}{\pi_{old}(a|s)} Q_{\pi_{old}}(s,a)]]}_{\text{g}} $$ 
 
 
-$$ E_{a \in \pi_{old}}[\frac{\grad \pi_{new}(a|s)}{\pi_{old}(a|s)} Q_{\pi_{old}}(s,a)] $$ 
+$$ E_{a \in \pi_{old}}[\frac{\nabla \pi_{new}(a|s)}{\pi_{old}(a|s)} Q_{\pi_{old}}(s,a)] $$ 
 
 This is very similar to vanilla policy gradient calculation: 
-$ \grad J(\theta) = E_{\pi}(\frac{\grad \pi}{\pi} Q_{\pi}(s,a)) $
-However it takes into account two different policies. 
+$ \nabla J(\theta) = E_{\pi}(\frac{\nabla \pi}{\pi} Q_{\pi}(s,a)) $
+However it takes \into account two different policies. 
 
 
 Therefore, 
@@ -504,7 +504,7 @@ $$ \text{maximize}((\theta - \theta_{old})g) $$
 
 Now trying to simplify KL divergence with taylor series
 
-$$ D_{KL}^{max}(\theta_{old}, \theta) = \underbrace{D_{KL}^{max}(\theta_{old}, \theta)}_{\text{=0}}  + (\theta - \theta_{old}) \underbrace{\grad D_{KL}^{max}(\theta_{old}, \theta)}_{\text{=0}} + \frac{1}{2} (\theta - \theta_{old})^{T} \grad^{2}_{\theta} D_{KL}^{max}(\theta_{old}, \theta) (\theta - \theta_{old}) $$
+$$ D_{KL}^{max}(\theta_{old}, \theta) = \underbrace{D_{KL}^{max}(\theta_{old}, \theta)}_{\text{=0}}  + (\theta - \theta_{old}) \underbrace{\nabla D_{KL}^{max}(\theta_{old}, \theta)}_{\text{=0}} + \frac{1}{2} (\theta - \theta_{old})^{T} \nabla^{2}_{\theta} D_{KL}^{max}(\theta_{old}, \theta) (\theta - \theta_{old}) $$
 
 
 This reduces to 
@@ -513,7 +513,7 @@ $$ \text{maximize}((\theta - \theta_{old})g) $$
 
 subject to: 
 
-$$ D_{KL}^{max}(\theta_{old}, \theta) = \frac{1}{2} (\theta - \theta_{old})^{T} \grad^{2}_{\theta} D_{KL}^{max}(\theta_{old}, \theta) (\theta - \theta_{old}) $$
+$$ D_{KL}^{max}(\theta_{old}, \theta) = \frac{1}{2} (\theta - \theta_{old})^{T} \nabla^{2}_{\theta} D_{KL}^{max}(\theta_{old}, \theta) (\theta - \theta_{old}) $$
 
 
 
@@ -523,4 +523,4 @@ $$ \theta_{k+1} = \theta_{k} + \alpha^{j} \sqrt{\frac{2\delta}{g^{T}A^{-1}g}} A^
 
 $ j \in (0,1) $
 
-The only way to calculate inverse is conjugate gradient trick, which is very complex. Therefore, we switched to computationally better models like PPO and GRPO. 
+The only way to calculate \inverse is conjugate gradient trick, which is very complex. Therefore, we switched to computationally better models like PPO and GRPO. 
