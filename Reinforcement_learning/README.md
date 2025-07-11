@@ -522,6 +522,6 @@ The solution to this is given by:
 
 $$ \theta_{k+1} = \theta_{k} + \alpha^{j} \sqrt{\frac{2\delta}{g^{T}A^{-1}g}} A^{-1}g  $$ 
 
-$ \text{j} \in (0,1) $
+j $\in$ $(0,1)$
 
-The only way to calculate \inverse is conjugate gradient trick, which is very complex. Therefore, we switched to computationally better models like PPO and GRPO. 
+The only way to calculate inverse is conjugate gradient trick, which is very complex. Therefore, we switched to computationally better models like PPO and GRPO. 
