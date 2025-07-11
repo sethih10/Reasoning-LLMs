@@ -514,7 +514,7 @@ $$ \text{maximize}((\theta - \theta_{\text{old}})g) $$
 
 subject to: 
 
-$$ D_{KL}^{max}(\theta_{\text{old}}, \theta) = \frac{1}{2} (\theta - \theta_{\text{old}})^{T} \nabla^{2}_{\theta} D_{KL}^{max}(\theta_{\text{old}}, \theta) (\theta - \theta_{\text{old}}) $$
+$$ D_{KL}^{max}(\theta_{\text{old}}, \theta) = \frac{1}{2} (\theta - \theta_{\text{old}})^{T} \nabla^{2}_{\theta} D_{KL}^{\text{max}}(\theta_{\text{old}}, \theta) (\theta - \theta_{\text{old}}) $$
 
 
 
