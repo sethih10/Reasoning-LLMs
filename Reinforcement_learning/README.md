@@ -452,7 +452,7 @@ $$ L_{\pi_{\text{old}}}(\pi^{new}) = E_{s \in S}[\sum_{a}\pi_{new}(a|s) A_{\pi_{
 
 Now we know, 
 
-$$ A_{\pi_{\text{old}}}(s,a) = Q_{\pi_{\text{old}}}(s,\underbrace{a}_{\text{dependent on new policy}}) - \underbrace{v_{\pi_{\text{old}}}(s)}_{\text{const.}} $$ 
+$$ A_{\pi_{\text{old}}}(s,a) = Q_{\pi_{\text{old}}}(s, \underbrace{a}_{\text{dependent on new policy}}) - \underbrace{v_{\pi_{\text{old}}}(s)}_{\text{const.}} $$ 
 
 
 This simplifies to: 
