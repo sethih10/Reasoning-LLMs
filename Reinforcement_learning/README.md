@@ -425,13 +425,13 @@ $$ \pi_{i+1} = argmax[L_{\pi}(\pi^{'})  - C D_{KL}^{max}(\pi, \pi^{'})] $$
 
 ## TRPO solution methodology
 
-$$ argmax_{\pi_{new}}[L_{\pi_{old}}(\pi_{new})]  $$
+$$ argmax_{\pi_{new}}[L_{\pi_{\text{old}}}(\pi_{new})]  $$
 
-subject to: $$ D_{KL}^max(\pi_{old}, \pi_{new}) < \delta $$
+subject to: $$ D_{KL}^max(\pi_{\text{old}}, \pi_{new}) < \delta $$
 
 We have the objective function as:
 
-$$ L_{\pi_{old}}(\pi^{new}) = n(\pi_{old}) + \sum_{s} p_{\pi_{old}}(s)\sum_{a}\pi_{new}(a|s) A_{\pi_{old}}(s, a) $$ 
+$$ L_{\pi_{\text{old}}}(\pi^{new}) = n(\pi_{\text{old}}) + \sum_{s} p_{\pi_{\text{old}}}(s)\sum_{a}\pi_{new}(a|s) A_{\pi_{\text{old}}}(s, a) $$ 
 
 However, this is difficult to solve, therefore we simplify
 
@@ -441,56 +441,56 @@ However, this is difficult to solve, therefore we simplify
 We use the expectation formula to reduce it to: 
 
 
-$$ L_{\pi_{old}}(\pi^{new}) = n(\pi_{old}) + E_{s \in S}[\sum_{a}\pi_{new}(a|s) A_{\pi_{old}}(s, a)] $$ 
+$$ L_{\pi_{\text{old}}}(\pi^{new}) = n(\pi_{\text{old}}) + E_{s \in S}[\sum_{a}\pi_{new}(a|s) A_{\pi_{\text{old}}}(s, a)] $$ 
 
-Since we will be finding gradient, we can remove the constant $n(\pi_{old})$
+Since we will be finding gradient, we can remove the constant $n(\pi_{\text{old}})$
 
-$$ L_{\pi_{old}}(\pi^{new}) = E_{s \in S}[\sum_{a}\pi_{new}(a|s) A_{\pi_{old}}(s, a)] $$ 
+$$ L_{\pi_{\text{old}}}(\pi^{new}) = E_{s \in S}[\sum_{a}\pi_{new}(a|s) A_{\pi_{\text{old}}}(s, a)] $$ 
 
 
 ### Concept 2: 
 
 Now we know, 
 
-$$ A_{\pi_old}(s,a) = Q_{\pi_{old}}(s,\underbrace{a}_{\text{dependent on new policy}}) - \underbrace{v_{\pi_{old}}(s)}_{\text{const.}} $$ 
+$$ A_{\pi_old}(s,a) = Q_{\pi_{\text{old}}}(s,\underbrace{a}_{\text{dependent on new policy}}) - \underbrace{v_{\pi_{\text{old}}}(s)}_{\text{const.}} $$ 
 
 
 This simplifies to: 
 
-$$ A_{\pi_old}(s,a) = Q_{\pi_{old}}(s,a) $$ 
+$$ A_{\pi_old}(s,a) = Q_{\pi_{\text{old}}}(s,a) $$ 
 
 So, now the expression is: 
 
-$$ L_{\pi_{old}}(\pi^{new}) = E_{s \in S}[\sum_{a}\pi_{new}(a|s) Q_{\pi_{old}}(s,a)] $$ 
+$$ L_{\pi_{\text{old}}}(\pi^{new}) = E_{s \in S}[\sum_{a}\pi_{new}(a|s) Q_{\pi_{\text{old}}}(s,a)] $$ 
 
 
 ### Concept 3: 
 
 It might be difficult to sample directly from new policy, therefore, we use importance sampling: 
 
-$$ L_{\pi_{old}}(\pi^{new}) = E_{s \in S}[\sum_{a} \pi_{old}(a|s) \frac{\pi_{new}(a|s)}{\pi_{old}(a|s)} Q_{\pi_{old}}(s,a)] $$ 
+$$ L_{\pi_{\text{old}}}(\pi^{new}) = E_{s \in S}[\sum_{a} \pi_{\text{old}}(a|s) \frac{\pi_{new}(a|s)}{\pi_{\text{old}}(a|s)} Q_{\pi_{\text{old}}}(s,a)] $$ 
 
 
-$$ L_{\pi_{old}}(\pi^{new}) = E_{s \in S}[\sum_{a} \pi_{old}(a|s) \frac{\pi_{new}(a|s)}{\pi_{old}(a|s)} Q_{\pi_{old}}(s,a)] $$ 
+$$ L_{\pi_{\text{old}}}(\pi^{new}) = E_{s \in S}[\sum_{a} \pi_{\text{old}}(a|s) \frac{\pi_{new}(a|s)}{\pi_{\text{old}}(a|s)} Q_{\pi_{\text{old}}}(s,a)] $$ 
 
 
-$$ L_{\pi_{old}}(\pi^{new}) = E_{a \in \pi_{old}}[ \frac{\pi_{new}(a|s)}{\pi_{old}(a|s)} Q_{\pi_{old}}(s,a)] $$ 
+$$ L_{\pi_{\text{old}}}(\pi^{new}) = E_{a \in \pi_{\text{old}}}[ \frac{\pi_{new}(a|s)}{\pi_{\text{old}}(a|s)} Q_{\pi_{\text{old}}}(s,a)] $$ 
 
 So now the objective function becomes
 
-$$ \text{Maximize}[E_{a \in \pi_{old}}[ \frac{\pi_{new}(a|s)}{\pi_{old}(a|s)} Q_{\pi_{old}}(s,a)]] $$
+$$ \text{Maximize}[E_{a \in \pi_{\text{old}}}[ \frac{\pi_{new}(a|s)}{\pi_{\text{old}}(a|s)} Q_{\pi_{\text{old}}}(s,a)]] $$
 
 
 This can be approximated using Taylor Series, 
 
-$$ f(\theta) = f(\theta_{old}) + (\theta - \theta_{old}) \nabla f(\theta)$$
+$$ f(\theta) = f(\theta_{\text{old}}) + (\theta - \theta_{\text{old}}) \nabla f(\theta)$$
 
-$$ f(\theta) = [E_{a \in \pi_{old}}[ \frac{\pi_{new}(a|s)}{\pi_{old}(a|s)} Q_{\pi_{old}}(s,a)]] $$ 
+$$ f(\theta) = [E_{a \in \pi_{\text{old}}}[ \frac{\pi_{new}(a|s)}{\pi_{\text{old}}(a|s)} Q_{\pi_{\text{old}}}(s,a)]] $$ 
 
-$$ f(\theta) = \underbrace{E_{a \in \pi_{old}}[ Q_{\pi_{old}}(s,a)]}_{\text{const.}} + (\theta - \theta_{old})\underbrace{[E_{a \in \pi_{old}}[ \frac{\nabla \pi_{new}(a|s)}{\pi_{old}(a|s)} Q_{\pi_{old}}(s,a)]]}_{\text{g}} $$ 
+$$ f(\theta) = \underbrace{E_{a \in \pi_{\text{old}}}[ Q_{\pi_{\text{old}}}(s,a)]}_{\text{const.}} + (\theta - \theta_{\text{old}})\underbrace{[E_{a \in \pi_{\text{old}}}[ \frac{\nabla \pi_{new}(a|s)}{\pi_{\text{old}}(a|s)} Q_{\pi_{\text{old}}}(s,a)]]}_{\text{g}} $$ 
 
 
-$$ E_{a \in \pi_{old}}[\frac{\nabla \pi_{new}(a|s)}{\pi_{old}(a|s)} Q_{\pi_{old}}(s,a)] $$ 
+$$ E_{a \in \pi_{\text{old}}}[\frac{\nabla \pi_{new}(a|s)}{\pi_{\text{old}}(a|s)} Q_{\pi_{\text{old}}}(s,a)] $$ 
 
 This is very similar to vanilla policy gradient calculation: 
 $ \nabla J(\theta) = E_{\pi}(\frac{\nabla \pi}{\pi} Q_{\pi}(s,a)) $
@@ -499,26 +499,18 @@ However it takes \into account two different policies.
 
 Therefore, 
 
-$$ \text{maximize}((\theta - \theta_{old})g) $$ 
+$$ \text{maximize}((\theta - \theta_{\text{old}})g) $$ 
 
 
 Now trying to simplify KL divergence with taylor series
 
-$$
-D_{KL}^{\text{max}}(\theta_{\text{old}}, \theta)
-= \underbrace{D_{KL}^{\text{max}}(\theta_{\text{old}}, \theta)}_{\text{= 0}}
-+ (\theta - \theta_{\text{old}})
-\underbrace{\nabla D_{KL}^{\text{max}}(\theta_{\text{old}}, \theta)}_{\text{= 0}}
-+ \frac{1}{2} (\theta - \theta_{\text{old}})^T
-\nabla^2_{\theta} D_{KL}^{\text{max}}(\theta_{\text{old}}, \theta)
-(\theta - \theta_{\text{old}})
-$$
+$$ D_{KL}^{max}(\theta_{\text{old}}, \theta) = \underbrace{D_{KL}^{max}(\theta_{\text{old}}, \theta)}{\text{=0}} + (\theta - \theta{old}) \underbrace{\nabla D_{KL}^{max}(\theta_{\text{old}}, \theta)}{\text{=0}} + \frac{1}{2} (\theta - \theta{old})^{T} \nabla^{2}{\theta} D{KL}^{max}(\theta_{\text{old}}, \theta) (\theta - \theta_{\text{old}}) $$
 
 
 
 This reduces to 
 
-$$ \text{maximize}((\theta - \theta_{old})g) $$ 
+$$ \text{maximize}((\theta - \theta_{\text{old}})g) $$ 
 
 subject to: 
 
