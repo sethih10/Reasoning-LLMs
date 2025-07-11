@@ -416,7 +416,111 @@ We use a surrogate model
 
 $$ n(\pi^{'}) \geq L_{\pi}(\pi^{'})  - C D_{KL}^{max}(\pi, \pi^{'}) $$
 
+It is worth to note that KL divergence doesn't allow the model to deviate a lot from the old policy. This is from where the concept of trust region comes. 
 
 Now, to find the optimal policy, we use: 
 
 $$ \pi_{i+1} = argmax[L_{\pi}(\pi^{'})  - C D_{KL}^{max}(\pi, \pi^{'})] $$
+
+
+## TRPO solution 
+
+$$ argmax_{\pi_{new}}[L_{\pi_{old}}(\pi_{new})]  $$
+
+subject to: $$ D_{KL}^max(\pi_{old}, \pi_{new}) < \delta $$
+
+We have the objective function as:
+
+$$ L_{\pi_{old}}(\pi^{new}) = n(\pi_{old}) + \sum_{s} p_{\pi_{old}}(s)\sum_{a}\pi_{new}(a|s) A_{\pi_{old}}(s, a) $$ 
+
+However, this is difficult to solve, therefore we simplify
+
+
+### Concept 1: 
+
+We use the expectation formula to reduce it to: 
+
+
+$$ L_{\pi_{old}}(\pi^{new}) = n(\pi_{old}) + E_{s in S}[\sum_{a}\pi_{new}(a|s) A_{\pi_{old}}(s, a)] $$ 
+
+Since we will be finding gradient, we can remove the constant $n(\pi_{old})$
+
+$$ L_{\pi_{old}}(\pi^{new}) = E_{s in S}[\sum_{a}\pi_{new}(a|s) A_{\pi_{old}}(s, a)] $$ 
+
+
+### Concept 2: 
+
+Now we know, 
+
+$$ A_{\pi_old}(s,a) = Q_{\pi_{old}}(s,\underbrace{a}_{\text{dependent on new policy}}) - \underbrace{v_{\pi_{old}}(s)}_{\text{const.}} $$ 
+
+
+This simplifies to: 
+
+$$ A_{\pi_old}(s,a) = Q_{\pi_{old}}(s,a) $$ 
+
+So, now the expression is: 
+
+$$ L_{\pi_{old}}(\pi^{new}) = E_{s in S}[\sum_{a}\pi_{new}(a|s) Q_{\pi_{old}}(s,a)] $$ 
+
+
+### Concept 3: 
+
+It might be difficult to sample directly from new policy, therefore, we use importance sampling: 
+
+$$ L_{\pi_{old}}(\pi^{new}) = E_{s \in S}[\sum_{a} \pi_{old}(a|s) \frac{\pi_{new}(a|s)}{\pi_{old}(a|s)} Q_{\pi_{old}}(s,a)] $$ 
+
+
+$$ L_{\pi_{old}}(\pi^{new}) = E_{s \in S}[\sum_{a} \pi_{old}(a|s) \frac{\pi_{new}(a|s)}{\pi_{old}(a|s)} Q_{\pi_{old}}(s,a)] $$ 
+
+
+$$ L_{\pi_{old}}(\pi^{new}) = E_{a \in \pi_{old}}[ \frac{\pi_{new}(a|s)}{\pi_{old}(a|s)} Q_{\pi_{old}}(s,a)] $$ 
+
+So now the objective function becomes
+
+$$ \text{Maximize}[E_{a \in \pi_{old}}[ \frac{\pi_{new}(a|s)}{\pi_{old}(a|s)} Q_{\pi_{old}}(s,a)]] $$
+
+
+This can be approximated using Taylor Series, 
+
+$$ f(\theta) = f(\theta_{old}) + (\theta - \theta_{old}) \grad f(\theta)$$
+
+$$ f(\theta) = [E_{a \in \pi_{old}}[ \frac{\pi_{new}(a|s)}{\pi_{old}(a|s)} Q_{\pi_{old}}(s,a)]] $$ 
+
+$$ f(\theta) = \underbrace{E_{a \in \pi_{old}}[ Q_{\pi_{old}}(s,a)]}_{\text{const.}} + (\theta - \theta_{old})\underbrace{[E_{a \in \pi_{old}}[ \frac{\grad \pi_{new}(a|s)}{\pi_{old}(a|s)} Q_{\pi_{old}}(s,a)]]}_{\text{g}} $$ 
+
+
+$$ E_{a \in \pi_{old}}[\frac{\grad \pi_{new}(a|s)}{\pi_{old}(a|s)} Q_{\pi_{old}}(s,a)] $$ 
+
+This is very similar to vanilla policy gradient calculation: 
+$ \grad J(\theta) = E_{\pi}(\frac{\grad \pi}{\pi} Q_{\pi}(s,a)) $
+However it takes into account two different policies. 
+
+
+Therefore, 
+
+$$ \text{maximize}((\theta - \theta_{old})g) $$ 
+
+
+Now trying to simplify KL divergence with taylor series
+
+$$ D_{KL}^{max}(\theta_{old}, \theta) = \underbrace{D_{KL}^{max}(\theta_{old}, \theta)}_{\text{=0}}  + (\theta - \theta_{old}) \underbrace{\grad D_{KL}^{max}(\theta_{old}, \theta)}_{\text{=0}} + \frac{1}{2} (\theta - \theta_{old})^{T} \grad^{2}_{\theta} D_{KL}^{max}(\theta_{old}, \theta) (\theta - \theta_{old}) $$
+
+
+This reduces to 
+
+$$ \text{maximize}((\theta - \theta_{old})g) $$ 
+
+subject to: 
+
+$$ D_{KL}^{max}(\theta_{old}, \theta) = \frac{1}{2} (\theta - \theta_{old})^{T} \grad^{2}_{\theta} D_{KL}^{max}(\theta_{old}, \theta) (\theta - \theta_{old}) $$
+
+
+
+The solution to this is given by: 
+
+$$ \theta_{k+1} = \theta_{k} + \alpha^{j} \sqrt{\frac{2\delta}{g^{T}A^{-1}g}} A^{-1}g  $$ 
+
+$ j \in (0,1) $
+
+The only way to calculate inverse is conjugate gradient trick, which is very complex. Therefore, we switched to computationally better models like PPO and GRPO. 
