@@ -516,8 +516,6 @@ subject to:
 
 $$ D_{\text{KL}}^{\text{max}}(\theta_{\text{old}}, \theta) = \frac{1}{2} (\theta - \theta_{\text{old}})^{T} \nabla^{2}_{\theta} D_{\text{KL}}^{\text{max}}(\theta_{\text{old}}, \theta) (\theta - \theta_{\text{old}}) $$
 
-
-
 The solution to this is given by: 
 
 $$ \theta_{k+1} = \theta_{k} + \alpha^{j} \sqrt{\frac{2\delta}{g^{T}A^{-1}g}} A^{-1}g  $$ 
