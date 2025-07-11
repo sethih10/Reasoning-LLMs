@@ -273,54 +273,54 @@ Proof: [link](https://miro.com/app/board/uXjVIsgkBts=/)
 ## REINFORCE 
 
 We use the concept of expected value from probability 
-E(f(x)) = xf(x)
+$ E(f(x)) = xf(x) $
 
 So, 
 
-\nabla J(\theta) \propto E_{\pi}[ \sum_a q_{\pi}(s,a) \nabla \pi(a \mid s, \theta)]
+$$ \nabla J(\theta) \propto E_{\pi}[ \sum_a q_{\pi}(s,a) \nabla \pi(a \mid s, \theta)] $$
 
 
 This gives 
-\theta_{t+1} = \theta_t + \alpha (\sum_a q_{\pi}(s,a) \nabla \pi(a \mid s, \theta))
+$$ \theta_{t+1} = \theta_t + \alpha (\sum_a q_{\pi}(s,a) \nabla \pi(a \mid s, \theta)) $$
 
 
 Now, we can even absorb the summation of action value 
 
-E_{\pi}[ \sum_a q_{\pi}(s,a) \nabla \pi(a \mid s, \theta)]
+$$ E_{\pi}[ \sum_a q_{\pi}(s,a) \nabla \pi(a \mid s, \theta)] $$ 
 
-= E_{\pi}[ \sum_a \pi(a|s,\theta) q_{\pi}(s,a) \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)}]
+$$ = E_{\pi}[ \sum_a \pi(a|s,\theta) q_{\pi}(s,a) \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)}] $$
 
-= E_{\pi}[ E_{\pi} [q_{\pi}(s,a)] \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)}]
+$$ = E_{\pi}[ E_{\pi} [q_{\pi}(s,a)] \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)}] $$
 
-= E_{\pi}[ q_{\pi}(s,a) \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)}]
+$$ = E_{\pi}[ q_{\pi}(s,a) \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)}] $$
 
-\nabla J(\theta) \propto E_{\pi}[ q_{\pi}(s,a) \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)}]
+$$ \nabla J(\theta) \propto E_{\pi}[ q_{\pi}(s,a) \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)}] $$ 
 
 We also know, 
 
-q_{\pi}(s,a) = E(R_{t+1} + \gamma R_{t+2} + ...) = E(G_t)
+$$ q_{\pi}(s,a) = E(R_{t+1} + \gamma R_{t+2} + ...) = E(G_t) $$
 
 So, 
 
-\nabla J(\theta) \propto E_{\pi}[ G_t \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)}]
+$$ \nabla J(\theta) \propto E_{\pi}[ G_t \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)}] $$
 
 
 This gives 
-\theta_{t+1} = \theta_t + \alpha (G_t \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)})
+$$ \theta_{t+1} = \theta_t + \alpha (G_t \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)}) $$
 
 
 ## REINFORCE with Baseline
 
 G_t might lead to fluctations, therefore we \introduce a baseline v(s,a) to control variance. 
 
-\theta_{t+1} = \theta_t + \alpha ((G_t - \hat{v}(s,w)) \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)})
+$$ \theta_{t+1} = \theta_t + \alpha ((G_t - \hat{v}(s,w)) \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)}) $$
 
 
 ## Actor-Critic method
 
 Expected return G_t requires agent to complete the episode. However, we can use the concepts from temporal difference learning to approximate G_t without waiting for the episode to complete. 
 
-\theta_{t+1} = \theta_t + \alpha (((R_{t+1} + \gamma \hat{v}(s_{t+1}, w)) - \hat{v}(s,w)) \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)})
+$$ \theta_{t+1} = \theta_t + \alpha (((R_{t+1} + \gamma \hat{v}(s_{t+1}, w)) - \hat{v}(s,w)) \frac{\nabla \pi(a \mid s, \theta)}{\pi(a|s,\theta)}) $$
 
 
 
@@ -328,13 +328,13 @@ Expected return G_t requires agent to complete the episode. However, we can use 
 
 We define an advantage function which tells about whether there can be improvement \in the current policy. It is give by -
 
-A(s_t, a_t) = q_{\pi}(a_t|s_t) - v_{\pi}(s_t)
+$$ A(s_t, a_t) = q_{\pi}(a_t|s_t) - v_{\pi}(s_t) $$ 
 
 If this is positive, it means there is room for improvement. 
 
-\nabla J(\theta) \propto E_{\pi}[ (q_{\pi}(a|s) - v_{\pi}(s)) \nabla log \pi(a \mid s, \theta)]
+$$ \nabla J(\theta) \propto E_{\pi}[ (q_{\pi}(a|s) - v_{\pi}(s)) \nabla log \pi(a \mid s, \theta)] $$
 
-(using \nabla log f(x) = \frac{\nabla f(x)}{f(x)})
+(using $ \nabla log f(x) = \frac{\nabla f(x)}{f(x)}$)
 
 
 We can use the definition of action value function 
@@ -522,6 +522,6 @@ The solution to this is given by:
 
 $$ \theta_{k+1} = \theta_{k} + \alpha^{j} \sqrt{\frac{2\delta}{g^{T}A^{-1}g}} A^{-1}g  $$ 
 
-$ j \in (0,1) $
+$ \text{j} \in (0,1) $
 
 The only way to calculate \inverse is conjugate gradient trick, which is very complex. Therefore, we switched to computationally better models like PPO and GRPO. 
