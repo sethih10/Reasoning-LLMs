@@ -504,7 +504,7 @@ $$ \text{maximize}((\theta - \theta_{\text{old}})g) $$
 
 Now trying to simplify KL divergence with taylor series
 
-$$ D_{KL}^{max}(\theta_{\text{old}}, \theta) = \underbrace{D_{KL}^{max}(\theta_{\text{old}}, \theta)}{\text{=0}} + (\theta - \theta{old}) \underbrace{\nabla D_{KL}^{max}(\theta_{\text{old}}, \theta)}{\text{=0}} + \frac{1}{2} (\theta - \theta{old})^{T} \nabla^{2}{\theta} D{KL}^{max}(\theta_{\text{old}}, \theta) (\theta - \theta_{\text{old}}) $$
+$$ D_{KL}^{max}(\theta_{\text{old}}, \theta) = \underbrace{D_{KL}^{max}(\theta_{\text{old}}, \theta)}_{\text{=0}} + (\theta - \theta{old}) \underbrace{\nabla D_{KL}^{max}(\theta_{\text{old}}, \theta)}_{\text{=0}} + \frac{1}{2} (\theta - \theta{old})^{T} \nabla^{2}{\theta} D{KL}^{max}(\theta_{\text{old}}, \theta) (\theta - \theta_{\text{old}}) $$
 
 
 
