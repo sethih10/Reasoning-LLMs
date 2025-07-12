@@ -587,7 +587,7 @@ $$ S(\pi_{\theta}, s_t) = - \sum_{a} \pi_{\theta}(a_t, s_t) log \pi_{\theta}(a_t
 
 So, in **PPO** $, the objective function becomes:
 
-$$ \text{maximize}_{\theta} E[ L_{\text{clip}}(\theta) - c_{1} L_{vf} (\theta) + c_{2} S(\pi_{\theta}, s_t)] $$ 
+$$ max_{\theta} E[ L_{\text{clip}}(\theta) - c_{1} L_{vf} (\theta) + c_{2} S(\pi_{\theta}, s_t)] $$ 
 
 
 
