@@ -536,7 +536,11 @@ $$ r_{t}(\theta) = \frac{\pi_{theta}(A_t | s_t)}{\pi_{theta_{\text{old}}}(A_t, s
 
 So now the objective function without the constraint becomes from this: 
 
-$$ \text{Maximize}[E_{a \in \pi_{\text{old}}}[ \frac{\pi_{new}(a_t|s_t)}{\pi_{\text{old}}(a_t|s_t)} \hat{A}_{\pi_{\text{old}}}(s_t,a_t) - \beta D_{KL}^{max}(\pi_{\theta}, \pi_{\theta_{\text{old}}})]] $$
+$$
+\text{Maximize} \left[\mathbb{E}_{a \sim \pi_{\text{old}}} \left[\frac{\pi_{\text{new}}(a_t \mid s_t)}{\pi_{\text{old}}(a_t \mid s_t)}
+\hat{A}_{\pi_{\text{old}}}(s_t, a_t) - \beta D_{KL}^{\text{max}}(\pi_{\theta}, \pi_{\theta_{\text{old}}})\right]\right]
+$$
+
 
 to: 
 
@@ -567,7 +571,7 @@ $$ L_{\text{clip}}(\theta)E_{\pi}[ min(r_{t}(\theta) A_{\pi}(s_t,a_t), clip(r_{t
 
 We can now easily use gradient descent to update our parameters:
 
-$$ \theta_{t+1} = \theta_{t} + \alpha \grad L_{\text{clip}}(\theta) $$ 
+$$ \theta_{t+1} = \theta_{t} + \alpha \nabla L_{\text{clip}}(\theta) $$ 
 
 
 However, this also makes to estimate the value function since $A_{\pi}(s_t, a_t)$ = $ R_t + \gamma v_{\pi}(s_{t+1}) - v_{\pi}(s_t) $
@@ -581,7 +585,7 @@ Since we also need exploration, we add entropy too:
 $$ S(\pi_{\theta}, s_t) = - \sum_{a} \pi_{\theta}(a_t, s_t) log \pi_{\theta}(a_t|s_t) $$
 
 
-So, in *PPO* $, the objective function becomes:
+So, in **PPO** $, the objective function becomes:
 
 $$ \text{maximize}_{\theta} E[ L_{\text{clip}}(\theta) - c_{1} L_{vf} (\theta) + c_{2} S(\pi_{\theta}, s_t)] $$ 
 
