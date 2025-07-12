@@ -548,7 +548,7 @@ to:
 $$ \text{Maximize}[E_{a \in \pi_{\text{old}}}[ r_{t}(\theta)  \hat{A}_{\pi_{\text{old}}}(s_t,a_t) - \beta D_{KL}^{max}(\pi_{\theta}, \pi_{\theta_{\text{old}}})]] $$
 
 
-Now to include the idea of TRPO, we need to modify the equation such that when A > 0: we clip the function $ r_{t}(\theta) $ when the advantage is very high outside the region. Whereas, when A < 0: We allow $ r_{t}(\theta) $ to increase, however we clip $ r_{t}(\theta) $ to a high value when $ r_{t}(\theta) $ is close to zero. 
+Now to include the idea of TRPO, we need to modify the equation such that when A > 0: we clip the function $ r_{t}$ ($\theta$)  when the advantage is very high outside the region. Whereas, when A < 0: We allow $ r_{t}$ ($\theta$)  to increase, however we clip $ r_{t}$ ($\theta$)  to a high value when $ r_{t}$ ($\theta$)  is close to zero. 
 
 The idea can be seen here: 
 
@@ -559,7 +559,7 @@ The idea can be seen here:
 ![Clip function Representation](Images/clip_function_representation.png)
 
 
-Now, $ r_{t}(\theta) $ can be replaced by min(f, $ r_{t}(\theta) $ sign($A_{\pi}$($s_t$, $A_t$)))
+Now, $ r_{t}$ ($\theta$)  can be replaced by min(f, $ r_{t}$ ($\theta$)  sign($A_{\pi}$($s_t$, $A_t$)))
 
 The surrogate objective function becomes:
 
@@ -585,7 +585,7 @@ Since we also need exploration, we add entropy too:
 $$ S(\pi_{\theta}, s_t) = - \sum_{a} \pi_{\theta}(a_t, s_t) log \pi_{\theta}(a_t|s_t) $$
 
 
-So, in **PPO** $, the objective function becomes:
+So, in **PPO** , the objective function becomes:
 
 $$ max_{\theta} E[ L_{\text{clip}}(\theta) - c_{1} L_{vf} (\theta) + c_{2} S(\pi_{\theta}, s_t)] $$ 
 
