@@ -523,3 +523,70 @@ $$ \theta_{k+1} = \theta_{k} + \alpha^{j} \sqrt{\frac{2\delta}{g^{T}A^{-1}g}} A^
 j $\in$ $(0,1)$
 
 The only way to calculate inverse is conjugate gradient trick, which is very complex. Therefore, we switched to computationally better models like PPO and GRPO. 
+
+
+
+# Proximal Policy Optimization 
+
+The idea fo this concepts stem from the problem of computational complexities of TRPO and the need for trust region. Therefore, this method was proposed to simplify the complexity to vanilla gradient problem, however still using the concept of trust region. 
+
+They introduced clipped surrogate objective - 
+
+$$ r_{t}(\theta) = \frac{\pi_{theta}(A_t | s_t)}{\pi_{theta_{\text{old}}}(A_t, s_t)} $$ 
+
+So now the objective function without the constraint becomes from this: 
+
+$$ \text{Maximize}[E_{a \in \pi_{\text{old}}}[ \frac{\pi_{new}(a_t|s_t)}{\pi_{\text{old}}(a_t|s_t)} \hat{A}_{\pi_{\text{old}}}(s_t,a_t) - \beta D_{KL}^{max}(\pi_{\theta}, \pi_{\theta_{\text{old}}})]] $$
+
+to: 
+
+
+$$ \text{Maximize}[E_{a \in \pi_{\text{old}}}[ r_{t}(\theta)  \hat{A}_{\pi_{\text{old}}}(s_t,a_t) - \beta D_{KL}^{max}(\pi_{\theta}, \pi_{\theta_{\text{old}}})]] $$
+
+
+Now to include the idea of TRPO, we need to modify the equation such that when A > 0: we clip the function $ r_{t}(\theta) $ when the advantage is very high outside the region. Whereas, when A < 0: We allow $ r_{t}(\theta) $ to increase, however we clip $ r_{t}(\theta) $ to a high value when $ r_{t}(\theta) $ is close to zero. 
+
+The idea can be seen here: 
+
+
+![Clip function](Images/clip_function.png)
+
+
+![Clip function Representation](Images/clip_function_representation.png)
+
+
+Now, $ r_{t}(\theta) $ can be replaced by min(f, $ r_{t}(\theta) $ sign($A_{\pi}$($s_t$, $A_t$)))
+
+The surrogate objective function becomes:
+
+$$ E_{\pi}[ min(r_{t}(\theta) A_{\pi}(s_t,a_t), f A_{\pi}(s_t,a_t))] $$
+
+Putting f: 
+
+$$ L_{\text{clip}}(\theta)E_{\pi}[ min(r_{t}(\theta) A_{\pi}(s_t,a_t), clip(r_{t}(\theta), 1-\epsilon, 1+\epsilon) A_{\pi}(s_t,a_t))] $$
+
+We can now easily use gradient descent to update our parameters:
+
+$$ \theta_{t+1} = \theta_{t} + \alpha \grad L_{\text{clip}}(\theta) $$ 
+
+
+However, this also makes to estimate the value function since $A_{\pi}(s_t, a_t)$ = $ R_t + \gamma v_{\pi}(s_{t+1}) - v_{\pi}(s_t) $
+Hence, we need to minimize: 
+
+$$ L_{vf} (\theta) = (v_{\theta}(s_t) - v_{t}^{target})^{2} $$ 
+
+
+Since we also need exploration, we add entropy too: 
+
+$$ S(\pi_{\theta}, s_t) = - \sum_{a} \pi_{\theta}(a_t, s_t) log \pi_{\theta}(a_t|s_t) $$
+
+
+So, in $ \textbf{PPO} $, the objective function becomes:
+
+
+'''
+$$ \text{maximize}_{\theta} E[ L_{\text{clip}}(\theta) - c_{1} L_{vf} (\theta) + c_{2} S(\pi_{\theta}, s_t)] $$ 
+'''
+
+
+
