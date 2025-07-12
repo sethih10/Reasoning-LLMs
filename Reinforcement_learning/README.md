@@ -595,7 +595,7 @@ $$ max_{\theta} E[ L_{\text{clip}}(\theta) - c_{1} L_{vf} (\theta) + c_{2} S(\pi
 
 **GRPO Pipeline**:
 
-[grpo_pipeline](Images/GRPO.png)
+![grpo_pipeline](Images/GRPO.png)
 
 
 We know from previous techniques, to update LLMs using Reinforcement learning, we use policy gradient methods to reach optimal policy for the models. This is given by - 
