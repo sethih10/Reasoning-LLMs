@@ -537,8 +537,8 @@ $$ r_{t}(\theta) = \frac{\pi_{theta}(A_t | s_t)}{\pi_{theta_{\text{old}}}(A_t, s
 So now the objective function without the constraint becomes from this: 
 
 $$
-\text{Maximize} \left[\mathbb{E}_{a \sim \pi_{\text{old}}} \left[\frac{\pi_{\text{new}}(a_t \mid s_t)}{\pi_{\text{old}}(a_t \mid s_t)}
-\hat{A}_{\pi_{\text{old}}}(s_t, a_t) - \beta D_{KL}^{\text{max}}(\pi_{\theta}, \pi_{\theta_{\text{old}}})\right]\right]
+\text{Maximize} [\mathbb{E}_{a \sim \pi_{\text{old}}} [\frac{\pi_{\text{new}}(a_t \mid s_t)}{\pi_{\text{old}}(a_t \mid s_t)}
+\hat{A}_{\pi_{\text{old}}}(s_t, a_t) - \beta D_{KL}^{\text{max}}(\pi_{\theta}, \pi_{\theta_{\text{old}}})]]
 $$
 
 
