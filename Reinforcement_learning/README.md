@@ -590,5 +590,42 @@ So, in **PPO** , the objective function becomes:
 $$ max_{\theta} E[ L_{\text{clip}}(\theta) - c_{1} L_{vf} (\theta) + c_{2} S(\pi_{\theta}, s_t)] $$ 
 
 
+# Group Relative Policy Optimization
 
 
+**GRPO Pipeline**:
+
+[grpo_pipeline](Images/GRPO.png)
+
+
+We know from previous techniques, to update LLMs using Reinforcement learning, we use policy gradient methods to reach optimal policy for the models. This is given by - 
+
+$$ \theta_{t+1} = \theta_{t} + \sum_{n=0}^{T-1} \nabla_{\theta} \log{\pi_{\theta}(a_t, s_t)}(G_t - V_{\phi}(S_t))$$
+
+where advantage function $ A_t  = G_t - V_{\phi}(S_t)$
+
+This becomes: 
+
+$$ \theta_{t+1} = \theta_{t} + \sum_{n=0}^{T-1} \nabla_{\theta} \log{\pi_{\theta}(a_t, s_t)} A_t $$
+
+
+However, in LLMs, there is no reward for intermediate state when tokens are being generated. Therefore, it is not useful to use techniques where we were just giving 0 to intermediate rewards. This gives rise to the concept of GRPO, where we ask LLM to generate multiple answers and we group the answers to give the advantage function. 
+
+Now, advantage function is: 
+
+$$ A_t = \frac{R - mean(r_s)}{std(r_s)} $$ 
+
+However, we also want to use the idea of trust region, which was previously discussed. This gives us this loss function:
+
+$$ L^{\text{PPO}} = \sum_{t=0}^{T-1}min(r_{\theta}A_t, clip(r_{\theta}, 1-\epsilon, 1+\epsilon)A_t) $$ 
+
+
+Now we get the GRPO loss as: 
+
+$$ L^{\text{GRPO}} = L^{\text{PPO}} - \beta D_{\text{KL}}[\pi_{\theta}||\pi_{\text{ref}}] $$ 
+
+
+We can apply gradient descent on this equation to find the optimal policy: 
+
+
+$$ \theta_{t+1} = \theta_{t} + \sum_{n=0}^{T-1} L^{\text{GRPO}}  $$
