@@ -645,4 +645,4 @@ where $y$ - output token, $x$ - prompt, $\pi$ - policy
 
 This can also be written as: 
 
-$$ \sum_{t=1}^{T} \pi_{\theta}(y_t \mid x, y_{\text{<t}}) $$
+$$ \sum_{t=1}^{T} \pi_{\theta}(y_t \mid x, y_{\text{t}}) $$
