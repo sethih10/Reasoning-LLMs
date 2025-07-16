@@ -532,7 +532,7 @@ The idea fo this concepts stem from the problem of computational complexities of
 
 They introduced clipped surrogate objective - 
 
-$$ r_{t}(\theta) = \frac{\pi_{theta}(A_t | s_t)}{\pi_{theta_{\text{old}}}(A_t, s_t)} $$ 
+$$ r_{t}(\theta) = \frac{\pi_{\theta}(A_t | s_t)}{\pi_{\theta_{\text{old}}}(A_t, s_t)} $$ 
 
 So now the objective function without the constraint becomes from this: 
 
@@ -629,3 +629,20 @@ We can apply gradient descent on this equation to find the optimal policy:
 
 
 $$ \theta_{t+1} = \theta_{t} + \sum_{n=0}^{T-1} L^{\text{GRPO}}  $$
+
+
+
+# Applying RL in LLMs
+
+When we model LLM as reinforcement learning problem, the first question is what are agent, state, actions and policy. 
+LLM itself is both agent and policy. While state denotes the prompt + previous input token and action denotes output token generated given the prompt/state. 
+
+This can be mathematically written as: 
+
+$$ \pi_{\theta}(y|x) = \pi_{\theta}(y_1|x)x\pi_{\theta}(y_2|x, y_1)x\pi_{\theta}(y_3|x, y1, y2)x...$$ 
+
+where $y$ - output token, $x$ - prompt, $\pi$ - policy
+
+This can also be written as: 
+
+$$ \sum_{t=1}^{T} \pi_(\theta)(y_t | x, y_{<t}) $$
